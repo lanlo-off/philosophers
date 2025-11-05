@@ -6,7 +6,7 @@
 /*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 14:24:14 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/03 15:34:49 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:16:38 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 int	main(int ac, char **av)
 {
 	t_args	*arg;
-	
+
 	if (ac < 5 || ac > 6)
 	{
 		printf("Wrong number of arguments!");
 		return (0);
 	}
-	arg = malloc(sizeof(arg));
+	arg = malloc(sizeof(t_args));
 	if (!arg)
 		return (1);
 	if (parse_args(arg, av, ac) == false)
@@ -40,8 +40,7 @@ int	main(int ac, char **av)
 		return (0);
 	}
 	// print_args(arg);
-	solver(arg);
+	init_all(arg);
 	free(arg);
 	return (0);
 }
-

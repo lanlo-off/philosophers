@@ -6,7 +6,7 @@
 /*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 15:08:02 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/03 16:24:41 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/05 15:13:52 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	parse_args(t_args *arg, char **av, int ac)
 		stock[i] = ft_atol(av[i + 1]);
 		printf("stock[%d]: %ld\n", i, stock[i]);
 		if (stock[i] <= 0 || stock[i] > INT_MAX)
-			return(false);
+			return (false);
 		i++;
 	}
 	if (ac == 6)
@@ -31,9 +31,9 @@ bool	parse_args(t_args *arg, char **av, int ac)
 		stock[i] = ft_atol(av[i + 1]);
 		printf("stock[%d]: %ld\n", i, stock[i]);
 		if (stock[i] <= 0 || stock[i] > INT_MAX)
-			return(false);
+			return (false);
 	}
-	else 
+	else
 		stock[i] = -1;
 	fill_arg(arg, stock);
 	return (true);

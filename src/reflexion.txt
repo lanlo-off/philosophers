@@ -1,0 +1,36 @@
+Mutex a faire de maniere asymetrique (en fonction de la parite par exemple) pour eviter le deadlock
+les philosophes pairs prennent d’abord la fourchette gauche,
+les impairs prennent d’abord la droite
+
+1. Chaque philo est-il un thread ?
+Oui je pense que chaque philo est un thread.
+Je ne sais pas comment faire pour faire un stop global de tous les threads, en revanche je pense que je peux inserer un bout de code qui verifie que le philosophe n'a pas atteint le goal avant de commencer a manger.
+Mais il faut que j'arrive a arreter l'ensemble quand tous les philo ont atteint goal
+
+2. Gestion du last meal 
+Un monitor qui recupere l'information du last meal de chaque thread est plus centralise et permet donc de prendre des decisions rapides sur l'arret global.
+Philo mutex l'info avant de la modifier, monitor mutex l'info avant de la lire. => Meme mutex utilise par les deux
+
+3. Qui surveille la mort
+J'imaginais que chaque philosopher se surveille lui-meme entre chaque etape.
+L'avantage est la rapidite de detection.
+
+4. Timing et pause non bloquante
+Necessaire de faire des petites boucles usleep/sleep plutot qu'une seule boucle qui dure [tt_eat] ou [tt_sleep] ou [tt_think] car il faut checker si on ne recoit pas le stop global entre temps
+
+5. Affichage des logs
+Je ne sais pas s'il est necessaire de mutex les affichages ou si les mutex sur la data permettront deja de prevenir cela (a priori necessaire de mutex les affichages)
+Si un mort, il faut un stop global qui permette de ne pas ecrire. Ou un check avant d'ecrire avec une variable qui compte le nombre de mort et on ecrit que si il est a 0.
+
+6. Prise des fourchettes
+Asymetrique comme precise avant.
+Un philo verifie sa premiere fourchette, si dispo il la mutex. Puis verifie la deuxieme et la mutex si dispo le temps de manger. Si indispo, il demutex la premiere.
+Je ne sais pas comment stocker les mutex
+
+7. Cas limites 
+philo = 1 => il meurt au bout de tt_die car ne peut pas manger
+tous atteignent le goal : le manager doit checker cette info et ensuite donner le signal stop a l'ensemble
+
+8. Ordre d'action
+Est-ce les philo commencent par penser ou prennent direct les fourchettes ?
+Apres manger, je pense liberer les mutex directement avant de dormir.
