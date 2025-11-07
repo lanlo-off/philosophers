@@ -1,0 +1,58 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug philosophers (gdb)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/philosophers",
+            "args": ["5", "800", "200", "200"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "targetArchitecture": "x86_64",
+            "preLaunchTask": "Build philosophers",
+            "setupCommands": [
+                {
+                    "description": "Désactiver la pagination pour que les sorties GDB ne soient pas tronquées",
+                    "text": "set pagination off",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Réduire les messages d'événements threads pour une sortie plus propre",
+                    "text": "set print thread-events off",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Afficher les variables longues entièrement",
+                    "text": "set print elements 0",
+                    "ignoreFailures": true
+                }
+            ],
+            "logging": {
+                "trace": false,
+                "engineLogging": false,
+                "programOutput": true,
+                "exceptions": true
+            }
+        },
+        {
+            "name": "Attach to running philosophers (gdb)",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceFolder}/philosophers",
+            "processId": "${command:pickProcess}",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "setupCommands": [
+                { "description": "Désactiver pagination", "text": "set pagination off", "ignoreFailures": true },
+                { "description": "Réduire événements threads", "text": "set print thread-events off", "ignoreFailures": true }
+            ]
+        }
+    ]
+}

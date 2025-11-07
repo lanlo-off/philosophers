@@ -1,9 +1,11 @@
 SRCS = src/main.c\
 	src/parser.c\
 	src/init.c\
+	src/init2.c\
 	src/cleaning.c\
 	src/monitor_routine.c\
-	src/philo_routine.c
+	src/philo_routine.c\
+	src/miscellaneous.c
 
 #OBJS := $(SRCS:.c=.o)
 

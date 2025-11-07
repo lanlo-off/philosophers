@@ -6,7 +6,7 @@
 /*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 15:08:02 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/05 15:13:52 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/07 15:00:21 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 bool	parse_args(t_args *arg, char **av, int ac)
 {
 	int		i;
-	long	stock[5];
+	long	*stock;
 
 	i = 0;
+	stock = malloc(sizeof(long) * 5);
+	if (!stock)
+		return (false);
 	while (i < 4)
 	{
 		stock[i] = ft_atol(av[i + 1]);
-		printf("stock[%d]: %ld\n", i, stock[i]);
 		if (stock[i] <= 0 || stock[i] > INT_MAX)
 			return (false);
 		i++;
@@ -29,7 +31,6 @@ bool	parse_args(t_args *arg, char **av, int ac)
 	if (ac == 6)
 	{
 		stock[i] = ft_atol(av[i + 1]);
-		printf("stock[%d]: %ld\n", i, stock[i]);
 		if (stock[i] <= 0 || stock[i] > INT_MAX)
 			return (false);
 	}
@@ -39,7 +40,7 @@ bool	parse_args(t_args *arg, char **av, int ac)
 	return (true);
 }
 
-void	fill_arg(t_args *arg, long stock[5])
+void	fill_arg(t_args *arg, long *stock)
 {
 	arg->nb_philo = (int)stock[0];
 	arg->tt_die = (int)stock[1];

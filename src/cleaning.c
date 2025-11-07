@@ -6,7 +6,7 @@
 /*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 14:12:11 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/05 15:26:45 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/07 14:13:46 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * 1 si c'est un mutex de last_meal qui a merde ; 
  * 2 si c'est un mutex de meal_eaten
  */
-void	clean_mutex_struct(t_philo	*philo, int index, int mode)
+void	clean_mutex_philo(t_philo	*philo, int index, int mode)
 {
 	int	i;
 
@@ -63,7 +63,7 @@ void	clean_mutex_tab(pthread_mutex_t *forks, int nb)
  */
 void	clean_all(t_philo *philo, pthread_mutex_t *forks, t_args *arg)
 {
-	clean_mutex_struct(philo, arg->nb_philo, 0);
+	clean_mutex_philo(philo, arg->nb_philo, 0);
 	clean_mutex_tab(forks, arg->nb_philo);
 	free(philo);
 	free(forks);
