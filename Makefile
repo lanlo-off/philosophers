@@ -2,7 +2,8 @@ SRCS = src/main.c\
 	src/parser.c\
 	src/init.c\
 	src/cleaning.c\
-	src/process.c
+	src/monitor_routine.c\
+	src/philo_routine.c
 
 #OBJS := $(SRCS:.c=.o)
 

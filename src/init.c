@@ -6,7 +6,7 @@
 /*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 15:35:06 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/05 18:12:29 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/06 13:36:08 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,19 @@ bool	init_philo(t_philo *philo, t_args *arg)
 	while (i < arg->nb_philo)
 	{
 		philo[i].index = i;
-		philo[i].last_meal_time = 0;
-		if (pthread_mutex_init(&philo[i].last_meal_mutex, NULL) != 0)//proteger ce mutex init comme dans init forks avec destruction de ceux deja crees
+		philo[i].last_meal_time = 0;//a verifier
+		if (pthread_mutex_init(&philo[i].last_meal_mutex, NULL) != 0)
 		{
 			clean_mutex_struct(philo, i, 1);
 			return (false);
 		}
 		philo[i].meal_eaten = 0;
-		if (pthread_mutex_init(&philo[i].nb_meal_mutex, NULL) != 0)//proteger ce mutex init comme dans init forks avec destruction de ceux deja crees
+		if (pthread_mutex_init(&philo[i].nb_meal_mutex, NULL) != 0)
 		{
 			clean_mutex_struct(philo, i, 2);
 			return (false);
 		}
+		def_left_n_right(philo[i]);
 		i++;
 	}
 	return (true);
@@ -76,7 +77,7 @@ bool	init_forks(pthread_mutex_t *forks, t_args *arg)
 	j = 0;
 	while (i < arg->nb_philo)
 	{
-		if (pthread_mutex_init(&forks[i], NULL) != 0)//si erreur dans l'init destroy tous les mutex deja init
+		if (pthread_mutex_init(&forks[i], NULL) != 0)//si erreur dans l'init : destroy tous les mutex deja init
 		{
 			clean_mutex_tab(forks, i);
 			return (false);
@@ -86,7 +87,7 @@ bool	init_forks(pthread_mutex_t *forks, t_args *arg)
 	return (true);
 }
 
-void	init_process(t_philo *philo, pthread_mutex_t *forks, t_args *arg)
+void	init_monitor(t_philo *philo, pthread_mutex_t *forks, t_args *arg)
 {
 	t_monitor *monitor;
 
@@ -95,6 +96,7 @@ void	init_process(t_philo *philo, pthread_mutex_t *forks, t_args *arg)
 		return ;
 	monitor->stop = false;
 	monitor->abort = false;
+	monitor->arg = &arg;
 	monitor->forks = &forks;
 	if (pthread_mutex_init(&monitor->stop_mutex, NULL) != 0)
 	{
@@ -114,25 +116,24 @@ void	init_process(t_philo *philo, pthread_mutex_t *forks, t_args *arg)
 		free(monitor);
 		return ;
 	}
-	init_threads(monitor, philo, forks, arg);
+	init_threads(monitor, philo);
 	pthread_mutex_destroy(&monitor->stop_mutex);
 	pthread_mutex_destroy(&monitor->start_mutex);
 	pthread_mutex_destroy(&monitor->abort_mutex);
 	free(monitor);
 }
 
-void	init_threads(t_monitor *monitor, t_philo *philo,
-	pthread_mutex_t *forks, t_args *args)
+void	init_threads(t_monitor *monitor, t_philo *philo)
 {
 	int	i;
 	
 	i = 0;
-	monitor->start_mutex
-	if (pthread_create(&monitor->m, NULL, &m_routine, NULL) != 0)//quel argument pour la routine, faut que le monitor puisse lire les data philo
+	pthread_mutex_lock(&monitor->start_mutex);//bloque le lancement des threads
+	if (pthread_create(&monitor->m, NULL, &m_routine, philo) != 0)//quel argument pour la routine, faut que le monitor puisse lire les data philo
 		return ;
-	while (i < args->nb_philo)
+	while (i < monitor->arg->nb_philo)
 	{
-		if (pthread_create(&philo[i].p, NULL, &p_routine, NULL) != 0)//quel argument pour la routine ? Faut qu'ils puissent lire les data du monitor et des forks
+		if (pthread_create(&philo[i].p, NULL, &p_routine, &philo[i]) != 0)//quel argument pour la routine ? Faut qu'ils puissent lire les data du monitor et des forks
 		{
 			monitor->abort = 1;
 			//destroy_threads(philo, i); en les lancant et avec le abort a 1 ca permet de les faire fermer
@@ -141,5 +142,7 @@ void	init_threads(t_monitor *monitor, t_philo *philo,
 		}
 		i++;
 	}
+	pthread_mutex_unlock(&monitor->start_mutex);//lance les threads
+	//join tous les threads (y compris le monitor)
 	
 }

@@ -12,8 +12,7 @@ Un monitor qui recupere l'information du last meal de chaque thread est plus cen
 Philo mutex l'info avant de la modifier, monitor mutex l'info avant de la lire. => Meme mutex utilise par les deux
 
 3. Qui surveille la mort
-J'imaginais que chaque philosopher se surveille lui-meme entre chaque etape.
-L'avantage est la rapidite de detection.
+le monitor surveille la mort toutes les 5 ms.
 
 4. Timing et pause non bloquante
 Necessaire de faire des petites boucles usleep/sleep plutot qu'une seule boucle qui dure [tt_eat] ou [tt_sleep] ou [tt_think] car il faut checker si on ne recoit pas le stop global entre temps
