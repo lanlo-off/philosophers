@@ -35,8 +35,13 @@ void	*m_routine(void *arg)
 		while (i < philo->arg->nb_philo)
 		{
 			pthread_mutex_lock(&philo[i].nb_meal_mutex);
-			if (philo[i].meal_eaten == philo[i].arg->goal)
+			if (philo[i].meal_eaten >= philo[i].arg->goal)
+			{
 				goal_count++;
+				pthread_mutex_lock(&philo->monitor->print_mutex);
+				printf("philo number %d | goal : %d | goal count : %d\n", i+1, philo[i].arg->goal, goal_count);
+				pthread_mutex_unlock(&philo->monitor->print_mutex);
+			}
 			pthread_mutex_unlock(&philo[i].nb_meal_mutex);
 			if (goal_count == philo[i].arg->nb_philo)
 			{

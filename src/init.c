@@ -72,10 +72,8 @@ bool	init_philo(t_philo *philo, t_args *arg)
 bool	init_forks(pthread_mutex_t *forks, t_args *arg)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = 0;
 	while (i < arg->nb_philo)
 	{
 		if (pthread_mutex_init(&forks[i], NULL) != 0)//si erreur dans l'init : destroy tous les mutex deja init

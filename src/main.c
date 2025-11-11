@@ -12,14 +12,14 @@
 
 #include "../includes/philo.h"
 
-// void	print_args(t_args *arg)
-// {
-// 	printf("nb_philo: %d\n", arg->nb_philo);
-// 	printf("tt_die: %d\n", arg->tt_die);
-// 	printf("tt_eat: %d\n", arg->tt_eat);
-// 	printf("tt_sleep: %d\n", arg->tt_sleep);
-// 	printf("goal: %d\n", arg->goal);
-// }
+void	print_args(t_args *arg)
+{
+	printf("nb_philo: %d\n", arg->nb_philo);
+	printf("tt_die: %d\n", arg->tt_die);
+	printf("tt_eat: %d\n", arg->tt_eat);
+	printf("tt_sleep: %d\n", arg->tt_sleep);
+	printf("goal: %d\n", arg->goal);
+}
 
 int	main(int ac, char **av)
 {
@@ -39,7 +39,7 @@ int	main(int ac, char **av)
 		free(arg);
 		return (0);
 	}
-	// print_args(arg);
+	print_args(arg);
 	init_all(arg);
 	free(arg);
 	return (0);
