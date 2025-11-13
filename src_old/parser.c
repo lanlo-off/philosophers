@@ -5,49 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 11:14:31 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 11:17:12 by llechert         ###   ########.fr       */
+/*   Created: 2025/11/03 15:08:02 by llechert          #+#    #+#             */
+/*   Updated: 2025/11/13 16:32:41 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo2.h"
+#include "philo_old.h"
 
-bool	parse_args(t_data *data, char **av, int ac)
+bool	parse_args(t_args *arg, char **av, int ac)
 {
 	int		i;
-	long	*tmp;
+	long	*stock;
 
 	i = 0;
-	tmp = malloc(sizeof(long) * 5);
-	if (!tmp)
+	stock = malloc(sizeof(long) * 5);
+	if (!stock)
 		return (false);
 	while (i < 4)
 	{
-		tmp[i] = ft_atol(av[i + 1]);
-		if (tmp[i] <= 0 || tmp[i] > INT_MAX)
+		stock[i] = ft_atol(av[i + 1]);
+		if (stock[i] <= 0 || stock[i] > INT_MAX)
 			return (false);
 		i++;
 	}
 	if (ac == 6)
 	{
-		tmp[i] = ft_atol(av[i + 1]);
-		if (tmp[i] <= 0 || tmp[i] > INT_MAX)
+		stock[i] = ft_atol(av[i + 1]);
+		if (stock[i] <= 0 || stock[i] > INT_MAX)
 			return (false);
 	}
 	else
-		tmp[i] = -1;
-	fill_data(data, tmp);
+		stock[i] = -1;
+	fill_arg(arg, stock);
 	return (true);
 }
 
-void	fill_data(t_data *data, long *tmp)
+void	fill_arg(t_args *arg, long *stock)
 {
-	data->nb_philo = (int)tmp[0];
-	data->tt_die = (int)tmp[1];
-	data->tt_eat = (int)tmp[2];
-	data->tt_sleep = (int)tmp[3];
-	data->tt_think = 0;//trouver une formule permettant de donner le temps a ceux qui n'ont pas mange d'avoir la priorite
-	data->goal = (int)tmp[4];
+	arg->nb_philo = (int)stock[0];
+	arg->tt_die = (int)stock[1];
+	arg->tt_eat = (int)stock[2];
+	arg->tt_sleep = (int)stock[3];
+	arg->tt_think = 0;//trouver une formule permettant de donner le temps a ceux qui n'ont pas mange d'avoir la priorite
+	arg->goal = (int)stock[4];
 }
 
 long	ft_atol(char *str)

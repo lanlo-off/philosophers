@@ -5,44 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 11:06:27 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 12:44:54 by llechert         ###   ########.fr       */
+/*   Created: 2025/11/03 14:24:14 by llechert          #+#    #+#             */
+/*   Updated: 2025/11/13 16:32:30 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo2.h"
+#include "philo_old.h"
+
+void	print_args(t_args *arg)
+{
+	printf("nb_philo: %d\n", arg->nb_philo);
+	printf("tt_die: %d\n", arg->tt_die);
+	printf("tt_eat: %d\n", arg->tt_eat);
+	printf("tt_sleep: %d\n", arg->tt_sleep);
+	printf("goal: %d\n", arg->goal);
+}
 
 int	main(int ac, char **av)
 {
-	t_data	*data;
+	t_args	*arg;
 
 	if (ac < 5 || ac > 6)
 	{
 		printf("Wrong number of arguments!");
 		return (0);
 	}
-	data = malloc(sizeof(t_data));
-	if (!data)
+	arg = malloc(sizeof(t_args));
+	if (!arg)
 		return (1);
-	if (parse_args(data, av, ac) == false)
+	if (parse_args(arg, av, ac) == false)
 	{
 		printf("Wrong arguments!");
-		free(data);
+		free(arg);
 		return (0);
 	}
-	start_process(data);
+	print_args(arg);
+	init_all(arg);
+	free(arg);
 	return (0);
-}
-
-void	start_process(t_data *data)
-{
-	if (!init_data(data))
-		clean_and_exit(data, 0);
-	if (!init_forks(data))
-		clean_and_exit(data, 1);
-	if (!init_philo(data))
-		clean_and_exit(data, 2);
-	init_threads(data);
-		clean_and_exit(data, 3);
-	clean_and_exit(data, 4);
 }

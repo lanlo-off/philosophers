@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo2.h                                           :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 14:31:58 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 11:34:35 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/07 17:12:24 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <stdbool.h>
 # include <limits.h>
 
-typedef struct s_data
+typedef struct s_args
 {
 	int	nb_philo;
 	int	tt_die;
@@ -34,15 +34,19 @@ typedef struct s_data
 	int	tt_sleep;
 	int	tt_think;
 	int	goal;
+}	t_args;
+
+typedef struct s_monitor
+{
 	pthread_t		m;
 	pthread_mutex_t	start_mutex;
 	bool			stop;
 	pthread_mutex_t	stop_mutex;
 	long			start_time;
-	pthread_mutex_t	print_mutex;
+	t_args			*arg;
 	pthread_mutex_t	*forks;
-	t_philo			**philo;
-}	t_data;
+	pthread_mutex_t	print_mutex;
+}	t_monitor;
 
 typedef struct s_philo
 {
@@ -54,7 +58,8 @@ typedef struct s_philo
 	pthread_mutex_t	last_meal_mutex;
 	int				meal_eaten;
 	pthread_mutex_t	nb_meal_mutex;
-	t_data			*data;
+	t_args			*arg;
+	t_monitor		*monitor;
 }	t_philo;
 
 

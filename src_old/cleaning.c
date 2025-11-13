@@ -5,54 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 11:53:01 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 12:55:43 by llechert         ###   ########.fr       */
+/*   Created: 2025/11/05 14:12:11 by llechert          #+#    #+#             */
+/*   Updated: 2025/11/13 16:32:09 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo2.h"
+#include "philo_old.h"
 
 /**
- * @brief fonction de cleaning en cascade
- * en cas d'erreur lors de l'initialisation d'un element
- * on cleane cet element dans la fonction d'init avant d'arriver ici pour
- * clean ce qui avait ete correctement initialise
+ * @brief sert a detruire les mutex de mon tableau de structure philo
  * 
- * @param data 
- * @param mode correspond au moment de l'erreur rencontree
- * 0 = init data
- * 1 = forks
- * 2 = philos
- * 3 = threads
- * 4 = pas d'erreur 
+ * @param philo tableau de structure dont il faut vider les mutex
+ * @param index Jusqu'a quel indice les mutex ont ete crees dans le tableau
+ * @param mode 0 = pas d'erreur dans ces mutex ; 
+ * 1 si c'est un mutex de last_meal qui a merde ; 
+ * 2 si c'est un mutex de meal_eaten
  */
-void	clean_and_exit(t_data *data, int mode)
-{
-	if (mode == 4)
-	{
-		join_threads(t_data *data);
-	}
-	if (mode >= 3)//on cleane les threads avant ici
-	{
-		clean_mutex_philo(data->philo, data->nb_philo, 1);//clean tous les philos
-		free(data->philo);
-	}
-	if (mode >= 2)//on cleane tous les philos avant d'arriver ici
-	{
-		clean_mutex_tab(data->forks, data->nb_philo);//destroy toutes les forks
-		free(data->forks);
-	}
-	if (mode >= 1)//on cleane les forks avant ici
-	{
-		pthread_mutex_destroy(&data->start_mutex);
-		pthread_mutex_destroy(&data->stop_mutex);
-		pthread_mutex_destroy(&data->print_mutex);
-	}
-	free(data);
-	exit(mode != 3);
-}
-
-void	clean_mutex_philo(t_philo *philo, int index, int mode)
+void	clean_mutex_philo(t_philo	*philo, int index, int mode)
 {
 	int	i;
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   monitor_routine.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
+/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 15:18:22 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/07 17:45:57 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:32:37 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo_old.h"
 
 /**
  * @brief commence par verifier si le philo a deja mange assez

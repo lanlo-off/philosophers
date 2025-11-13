@@ -1,10 +1,11 @@
-SRCS = src/main.c\
-	src/parser.c\
-	src/init.c\
-	src/cleaning.c\
-	src/monitor.c\
-	src/philo_routine.c\
-	src/time.c
+SRCS = src_old/main.c\
+	src_old/parser.c\
+	src_old/init.c\
+	src_old/init2.c\
+	src_old/cleaning.c\
+	src_old/monitor_routine.c\
+	src_old/philo_routine.c\
+	src_old/miscellaneous.c
 
 #OBJS := $(SRCS:.c=.o)
 
@@ -12,9 +13,9 @@ OBJS_DIR = obj
 
 OBJS = $(SRCS:src/%.c=$(OBJS_DIR)/%.o)
 
-NAME = philo
+NAME = philosophers
 
-HEADER = includes/philo.h
+HEADER = ./philo_old.h
 
 CC = cc
 

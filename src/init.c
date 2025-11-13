@@ -5,140 +5,120 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 15:35:06 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 12:26:24 by llechert         ###   ########.fr       */
+/*   Created: 2025/11/13 12:06:06 by llechert          #+#    #+#             */
+/*   Updated: 2025/11/13 18:06:19 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	init_all(t_args *arg)
+bool	init_data(t_data *data)
 {
-	t_philo			*philo;
-	pthread_mutex_t	*forks;
+	if (pthread_mutex_init(&data->start_mutex, NULL) != 0)
+		return (false);
+	if (pthread_mutex_init(&data->stop_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&data->start_mutex);
+		return (false);
+	}
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&data->start_mutex);
+		pthread_mutex_destroy(&data->stop_mutex);
+		return (false);
+	}
+	data->stop = false;
+	return (true);
+}
 
-	philo = malloc(sizeof(t_philo) * arg->nb_philo);
-	if (!philo)
-		return ;
-	if (!init_philo(philo, arg))
+bool	init_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
+	if (!data->forks)
+		return (false);
+	while (i < data->nb_philo)
 	{
-		free(philo);
-		return ;
+		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
+		{
+			clean_mutex_tab(data->forks, i);
+			free(data->forks);
+			return (false);
+		}
+		i++;
 	}
-	forks = malloc(sizeof(pthread_mutex_t) * arg->nb_philo);
-	if (!forks)
-		free(philo);
-	else if (!init_forks(forks, arg))
+	return (true);
+}
+
+bool	init_philo(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->philo = malloc(sizeof(t_philo) * data->nb_philo);
+	if (!data->philo)
+		return (false);
+	while (i < data->nb_philo)
 	{
-		clean_mutex_philo(philo, arg->nb_philo, 1);
-		free(philo);
-		free(forks);
+		fill_philo(data, i);
+		if (pthread_mutex_init(&data->philo[i].last_meal_mutex, NULL) != 0)
+		{
+			clean_mutex_philo(data->philo, i, 1);
+			free(data->philo);
+			return (false);
+		}
+		if (pthread_mutex_init(&data->philo[i].nb_meal_mutex, NULL) != 0)
+		{
+			clean_mutex_philo(data->philo, i, 2);
+			free(data->philo);
+			return (false);
+		}
+		i++;
 	}
+	return (true);
+}
+
+void	fill_philo(t_data *data, int i)
+{
+	data->philo[i].index = i + 1;
+	data->philo[i].r_fork = i;
+	if (i == data->nb_philo - 1)//si on est sur le dernier philosophe
+		data->philo[i].l_fork = 0;
 	else
-	{
-		init_monitor(philo, forks, arg);
-		clean_all(philo, forks, arg);
-	}
+		data->philo[i].l_fork = i + 1;
+	data->philo[i].last_meal_time = 0;
+	data->philo[i].meal_eaten = 0;
+	data->philo[i].data = data;
+	
 }
 
-bool	init_philo(t_philo *philo, t_args *arg)
-{
-	int	i;
-
-	i = 0;
-	while (i < arg->nb_philo)
-	{
-		philo[i].index = i + 1;
-		philo[i].last_meal_time = 0;
-		philo[i].arg = arg;
-		if (pthread_mutex_init(&philo[i].last_meal_mutex, NULL) != 0)
-		{
-			clean_mutex_philo(philo, i, 1);
-			return (false);
-		}
-		philo[i].meal_eaten = 0;
-		if (pthread_mutex_init(&philo[i].nb_meal_mutex, NULL) != 0)
-		{
-			clean_mutex_philo(philo, i, 2);
-			return (false);
-		}
-		def_left_n_right(&philo[i]);
-		printf("philo %d : lfork : %d | rfork %d\n", philo[i].index, philo[i].l_fork, philo[i].r_fork);
-		i++;
-	}
-	return (true);
-}
-
-bool	init_forks(pthread_mutex_t *forks, t_args *arg)
-{
-	int	i;
-
-	i = 0;
-	while (i < arg->nb_philo)
-	{
-		if (pthread_mutex_init(&forks[i], NULL) != 0)//si erreur dans l'init : destroy tous les mutex deja init
-		{
-			clean_mutex_tab(forks, i);
-			return (false);
-		}
-		i++;
-	}
-	return (true);
-}
-
-void	init_monitor(t_philo *philo, pthread_mutex_t *forks, t_args *arg)
-{
-	t_monitor *monitor;
-
-	monitor = malloc(sizeof(t_monitor));
-	if (!monitor)
-		return ;
-	monitor->stop = false;
-	monitor->arg = arg;
-	monitor->forks = forks;
-	assign_monitor(monitor, philo);
-	if (pthread_mutex_init(&monitor->stop_mutex, NULL) != 0)
-	{
-		free(monitor);
-		return ;
-	}
-	else if (pthread_mutex_init(&monitor->start_mutex, NULL) != 0)
-	{
-		pthread_mutex_destroy(&monitor->stop_mutex);
-		free(monitor);
-		return ;
-	}
-	init_threads(monitor, philo);
-	pthread_mutex_destroy(&monitor->stop_mutex);
-	pthread_mutex_destroy(&monitor->start_mutex);
-	free(monitor);
-}
-
-void	init_threads(t_monitor *monitor, t_philo *philo)
+void	init_threads(t_data *data)
 {
 	int	i;
 	
 	i = 0;
-	pthread_mutex_lock(&monitor->start_mutex);
-	if (pthread_create(&monitor->m, NULL, &m_routine, philo) != 0)
+	data->start_time = get_time_ms();
+	pthread_mutex_lock(&data->start_mutex);
+	if (pthread_create(&data->m, NULL, &m_rout, data) != 0)
 	{
-		pthread_mutex_unlock(&monitor->start_mutex);
-		return ;
+		pthread_mutex_unlock(&data->start_mutex);
+		clean_and_exit(data, 3);
 	}
-	monitor->start_time = get_time_ms();
-	while (i < monitor->arg->nb_philo)
+	while (i < data->nb_philo)
 	{
-		if (pthread_create(&philo[i].p, NULL, &p_routine, &philo[i]) != 0)//quel argument pour la routine ? Faut qu'ils puissent lire les data du monitor et des forks
+		if (pthread_create(&data->philo[i].p, NULL, &p_rout, &data->philo[i]))
 		{
-			monitor->stop = true;
-			pthread_mutex_unlock(&monitor->start_mutex);
-			pthread_join(monitor->m, NULL);
+			data->stop = true;
+			pthread_mutex_unlock(&data->start_mutex);
+			pthread_join(data->m, NULL);
 			while (--i >= 0)
-				pthread_join(philo[i].p, NULL);
-			return ;
+				pthread_join(data->philo[i].p, NULL);
+			clean_and_exit(data, 3);
 		}
 		i++;
 	}
-	pthread_mutex_unlock(&monitor->start_mutex);//lance les threads
-	join_threads(monitor, philo);
+	pthread_mutex_unlock(&data->start_mutex);//lance les threads
+	clean_and_exit(data, 4);//inclut le pthread_join
 }

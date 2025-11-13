@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   miscellaneous.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
+/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 10:09:03 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/07 17:23:02 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/13 16:32:34 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "philo_old.h"
 
 //une fonction qui calcule le temps passe depuis le debut avec gettimeofday() ?
 //Stocker quelque part l'heure de demarrage car elle va servir de T0
