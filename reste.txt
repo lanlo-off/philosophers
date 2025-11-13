@@ -1,0 +1,3 @@
+- Handler du signal si necessaire
+- nb_philo = 1
+- trop d'utilisation de CPU quand on 
