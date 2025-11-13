@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
+/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 15:35:06 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/07 17:26:15 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/13 12:26:24 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,8 @@ void	init_threads(t_monitor *monitor, t_philo *philo)
 			pthread_mutex_unlock(&monitor->start_mutex);
 			pthread_join(monitor->m, NULL);
 			while (--i >= 0)
-                pthread_join(philo[i].p, NULL);
-            return ;
+				pthread_join(philo[i].p, NULL);
+			return ;
 		}
 		i++;
 	}
