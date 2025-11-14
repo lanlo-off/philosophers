@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 11:06:27 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 18:12:58 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:05:37 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	main(int ac, char **av)
 		free(data);
 		return (0);
 	}
-	if (data->nb_philo == 1)
-		return (0);
 	start_process(data);
 	return (0);
 }

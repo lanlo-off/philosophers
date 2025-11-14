@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:28:31 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 19:02:32 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:44:23 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	*m_rout(void *arg)
 {
 	t_data	*data;
 	int		i;
-	int 	goal_count;
+	int		goal_count;
 
 	data = (t_data *)arg;
 	goal_count = 0;
@@ -31,22 +31,17 @@ void	*m_rout(void *arg)
 	{
 		i = 0;
 		goal_count = 0;
-		usleep(200);//temps defini arbitrairement
 		while (i < data->nb_philo)
 		{
 			if (philo_full(data, &data->philo[i]))
-			{
 				goal_count++;
-				// pthread_mutex_lock(&data->print_mutex);
-				// printf("philo number %d | goal : %d | goal count : %d\n", i+1, data->goal, goal_count);
-				// pthread_mutex_unlock(&data->print_mutex);
-			}
 			if (all_philo_full(data, goal_count))
 				break ;
 			if (check_death(data, &data->philo[i]))
 				break ;
 			i++;
 		}
+		usleep(1000);
 	}
 	return (NULL);
 }
@@ -54,7 +49,7 @@ void	*m_rout(void *arg)
 bool	philo_full(t_data *data, t_philo *philo)
 {
 	bool	val;
-	
+
 	pthread_mutex_lock(&philo->nb_meal_mutex);
 	if (data->goal > 0 && philo->meal_eaten >= data->goal)
 		val = true;

@@ -4,7 +4,9 @@ SRCS = src/main.c\
 	src/cleaning.c\
 	src/monitor.c\
 	src/philo_routine.c\
-	src/time.c
+	src/time.c\
+	src/alone_routine.c\
+	src/routine_utils.c
 
 #OBJS := $(SRCS:.c=.o)
 

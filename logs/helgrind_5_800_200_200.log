@@ -1,0 +1,48 @@
+==77442== Helgrind, a thread error detector
+==77442== Copyright (C) 2007-2017, and GNU GPL'd, by OpenWorks LLP et al.
+==77442== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==77442== Command: ./philo 5 800 200 200
+==77442== Parent PID: 77441
+==77442== 
+==77442== 
+==77442== Process terminating with default action of signal 15 (SIGTERM)
+==77442==    at 0x490D117: __futex_abstimed_wait_common64 (futex-internal.c:57)
+==77442==    by 0x490D117: __futex_abstimed_wait_common (futex-internal.c:87)
+==77442==    by 0x490D117: __futex_abstimed_wait_cancelable64 (futex-internal.c:139)
+==77442==    by 0x4912623: __pthread_clockjoin_ex (pthread_join_common.c:105)
+==77442==    by 0x48508F5: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==77442==    by 0x401D63: join_threads (cleaning.c:93)
+==77442==    by 0x401C61: clean_and_exit (cleaning.c:32)
+==77442==    by 0x401C34: init_threads (init.c:123)
+==77442==    by 0x40131E: start_process (main.c:45)
+==77442==    by 0x401298: main (main.c:33)
+==77442== ---Thread-Announcement------------------------------------------
+==77442== 
+==77442== Thread #7 was created
+==77442==    at 0x49A1A63: clone (clone.S:76)
+==77442==    by 0x49A295E: __clone_internal (clone-internal.c:83)
+==77442==    by 0x49106D8: create_thread (pthread_create.c:295)
+==77442==    by 0x49111FF: pthread_create@@GLIBC_2.34 (pthread_create.c:828)
+==77442==    by 0x4853767: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==77442==    by 0x401B95: init_threads (init.c:111)
+==77442==    by 0x40131E: start_process (main.c:45)
+==77442==    by 0x401298: main (main.c:33)
+==77442== 
+==77442== ----------------------------------------------------------------
+==77442== 
+==77442== Thread #7: Exiting thread still holds 2 locks
+==77442==    at 0x49617F8: clock_nanosleep@@GLIBC_2.17 (clock_nanosleep.c:78)
+==77442==    by 0x4966676: nanosleep (nanosleep.c:25)
+==77442==    by 0x4997F9E: usleep (usleep.c:31)
+==77442==    by 0x402697: smart_sleep (time.c:40)
+==77442==    by 0x402469: philo_eating (philo_routine.c:62)
+==77442==    by 0x4021BF: p_rout (philo_routine.c:29)
+==77442==    by 0x485396A: ??? (in /usr/libexec/valgrind/vgpreload_helgrind-amd64-linux.so)
+==77442==    by 0x4910AC2: start_thread (pthread_create.c:442)
+==77442==    by 0x49A1A73: clone (clone.S:100)
+==77442== 
+==77442== 
+==77442== Use --history-level=approx or =none to gain increased speed, at
+==77442== the cost of reduced accuracy of conflicting-access information
+==77442== For lists of detected and suppressed errors, rerun with: -s
+==77442== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 535508 from 127)

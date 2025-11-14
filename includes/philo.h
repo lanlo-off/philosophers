@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 14:31:58 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 18:05:55 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:09:01 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@
 # include <stdbool.h>
 # include <limits.h>
 
-typedef struct s_philo t_philo;
+typedef struct s_philo	t_philo;
 typedef struct s_data
 {
-	int	nb_philo;
-	int	tt_die;
-	int	tt_eat;
-	int	tt_sleep;
-	int	tt_think;
-	int	goal;
+	int				nb_philo;
+	int				tt_die;
+	int				tt_eat;
+	int				tt_sleep;
+	int				goal;
 	pthread_t		m;
 	pthread_mutex_t	start_mutex;
 	bool			stop;
@@ -58,9 +57,12 @@ struct s_philo
 	t_data			*data;
 };
 
+/*alone_routine.c*/
+void	alone_routine(t_philo *philo);
+
 /*cleaning.c*/
 void	clean_and_exit(t_data *data, int mode);
-void	clean_mutex_philo(t_philo	*philo, int index, int mode);
+void	clean_mutex_philo(t_philo *philo, int index, int mode);
 void	clean_mutex_tab(pthread_mutex_t *forks, int nb);
 void	join_threads(t_data *data);
 
@@ -74,11 +76,6 @@ void	init_threads(t_data *data);
 /*main.c*/
 int		main(int ac, char **av);
 void	start_process(t_data *data);
-
-/*time.c*/
-long	get_time_ms(void);
-long	time_passed(t_data *data);
-void	smart_sleep(int time_to_sleep, t_philo *philo);
 
 /*monitor.c ==> a modifier */
 void	*m_rout(void *arg);
@@ -98,4 +95,13 @@ bool	philo_eating(t_philo *philo);
 void	update_meal_data(t_philo *philo);
 void	print_info(t_data *data, int index, char *message);
 bool	check_stop(t_data *data);
+
+/*routine_utils.c*/
+void	think_smart(t_philo *philo, t_data *data);
+
+/*time.c*/
+long	get_time_ms(void);
+long	time_passed(t_data *data);
+void	smart_sleep(int time_to_sleep, t_philo *philo);
+
 #endif

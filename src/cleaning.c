@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 11:53:01 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 18:06:04 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:29:29 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,24 @@ void	clean_and_exit(t_data *data, int mode)
 {
 	if (mode == 4)
 		join_threads(data);
-	if (mode >= 3)//on cleane les threads avant ici
+	if (mode >= 3)
 	{
-		clean_mutex_philo(data->philo, data->nb_philo, 1);//clean tous les philos
+		clean_mutex_philo(data->philo, data->nb_philo, 1);
 		free(data->philo);
 	}
-	if (mode >= 2)//on cleane tous les philos avant d'arriver ici
+	if (mode >= 2)
 	{
-		clean_mutex_tab(data->forks, data->nb_philo);//destroy toutes les forks
+		clean_mutex_tab(data->forks, data->nb_philo);
 		free(data->forks);
 	}
-	if (mode >= 1)//on cleane les forks avant ici
+	if (mode >= 1)
 	{
 		pthread_mutex_destroy(&data->start_mutex);
 		pthread_mutex_destroy(&data->stop_mutex);
 		pthread_mutex_destroy(&data->print_mutex);
 	}
 	free(data);
-	exit(mode != 3);
+	exit(mode != 4);
 }
 
 void	clean_mutex_philo(t_philo *philo, int index, int mode)
@@ -86,7 +86,7 @@ void	clean_mutex_tab(pthread_mutex_t *forks, int nb)
 void	join_threads(t_data *data)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < data->nb_philo)
 	{

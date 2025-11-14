@@ -1,0 +1,70 @@
+PHILO TEST SUITE REPORT - Fri Nov 14 04:00:15 PM CET 2025
+
+Test: philo 1 800 200 200 (expected: death)
+Result: DEATH detected
+No 'is eating' lines in output.
+
+Valgrind: OK (no errors in log)
+
+Helgrind: OK (no errors in log)
+
+========================================
+
+Test: philo 5 800 200 200 (expected: no_death)
+Result: NO DEATH
+Meal counts:
+  Philo 1: 8
+  Philo 2: 8
+  Philo 3: 8
+  Philo 4: 8
+  Philo 5: 8
+
+Valgrind: timed out (log: logs/valgrind_5_800_200_200.log)
+
+Helgrind: timed out (log: logs/helgrind_5_800_200_200.log)
+
+========================================
+
+Test: philo 5 800 200 200 7 (expected: no_death_count)
+Result: NO DEATH
+Meal counts:
+  Philo 1: 7
+  Philo 2: 7
+  Philo 3: 7
+  Philo 4: 7
+  Philo 5: 7
+
+Valgrind: OK (no errors in log)
+
+Helgrind: OK (no errors in log)
+
+========================================
+
+Test: philo 4 410 200 200 (expected: no_death)
+Result: NO DEATH
+Meal counts:
+  Philo 1: 10
+  Philo 2: 10
+  Philo 3: 10
+  Philo 4: 11
+
+Valgrind: timed out (log: logs/valgrind_4_410_200_200.log)
+
+Helgrind: OK (no errors in log)
+
+========================================
+
+Test: philo 4 310 200 100 (expected: death)
+Result: DEATH detected
+Meal counts:
+  Philo 1: 1
+  Philo 2: 1
+  Philo 3: 1
+  Philo 4: 1
+
+Valgrind: OK (no errors in log)
+
+Helgrind: OK (no errors in log)
+
+========================================
+

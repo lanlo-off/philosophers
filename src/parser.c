@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 11:14:31 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 17:30:19 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/14 15:28:42 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	fill_data(t_data *data, long *tmp)
 	data->tt_die = (int)tmp[1];
 	data->tt_eat = (int)tmp[2];
 	data->tt_sleep = (int)tmp[3];
-	data->tt_think = 0;//trouver une formule permettant de donner le temps a ceux qui n'ont pas mange d'avoir la priorite
 	data->goal = (int)tmp[4];
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llechert <llechert@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llechert <llechert@42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:06:06 by llechert          #+#    #+#             */
-/*   Updated: 2025/11/13 18:06:19 by llechert         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:47:31 by llechert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,19 @@ void	fill_philo(t_data *data, int i)
 {
 	data->philo[i].index = i + 1;
 	data->philo[i].r_fork = i;
-	if (i == data->nb_philo - 1)//si on est sur le dernier philosophe
+	if (i == data->nb_philo - 1)
 		data->philo[i].l_fork = 0;
 	else
 		data->philo[i].l_fork = i + 1;
 	data->philo[i].last_meal_time = 0;
 	data->philo[i].meal_eaten = 0;
 	data->philo[i].data = data;
-	
 }
 
 void	init_threads(t_data *data)
 {
 	int	i;
-	
+
 	i = 0;
 	data->start_time = get_time_ms();
 	pthread_mutex_lock(&data->start_mutex);
@@ -119,6 +118,6 @@ void	init_threads(t_data *data)
 		}
 		i++;
 	}
-	pthread_mutex_unlock(&data->start_mutex);//lance les threads
-	clean_and_exit(data, 4);//inclut le pthread_join
+	pthread_mutex_unlock(&data->start_mutex);
+	clean_and_exit(data, 4);
 }
